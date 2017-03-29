@@ -16,26 +16,70 @@ def add_sphere( points, cx, cy, cz, r, step ):
     sphere=generate_sphere( points, cx, cy, cz, r, step )
     for n in sphere:
         add_edge(points,n[0],n[1],n[2],n[0]+1,n[1]+1,n[2]+1)
-        
+    
 def generate_sphere( points, cx, cy, cz, r, step ):
-    sphere=[]
-    n=1/step
-    r=0
-    while(r<=n):
-        c=0
-        while(c<=n):
-            x=r*math.cos(math.pi*c*step)+cx
-            y=r*math.sin(math.pi*c*step)*math.cos(math.pi*2*r*step)+cy
-            z=r*math.sin(math.pi*c*step)*math.sin(math.pi*2*r*step)+cz
-            sphere.append([x,y,z,1])
-            c+=1
-        r+=1
-    return sphere
+    sphere = []
+    n = 1/step
+    rotTwo = 0
+    while rotTwo <= n:
+        circTwo = 0
+        rot = rotTwo/n
+        while circTwo <= n:
+            circ = circTwo/n
+            x = r*math.cos(circ*math.pi) + cx
+            y = r*math.sin(circ*math.pi)*math.cos(rot*2*math.pi) + cy
+            z = r*math.sin(circ*math.pi)*math.sin(rot*2*math.pi) + cz
+            sphere.append([x, y, z, 1])
 
+            circTwo += 1
+        rotTwo += 1
+    return sphere
+    
 def add_torus( points, cx, cy, cz, r0, r1, step ):
-    pass
+    torus=generate_torus( points, cx, cy, cz, r0, r1, step )
+    for n in torus:
+        add_edge(points,n[0],n[1],n[2],n[0]+1,n[1]+1,n[2]+1)
+    
+'''def generate_torus( points, cx, cy, cz, r0, r1, step ):
+    torus=[]
+    n=1/step
+    rot=0
+    while rot <= n:
+        circ=0
+        rotTwo=rot/n
+        while circ <= 0:
+            circTwo=circ/n
+            thing=r0*math.cos(circTwo*2*math.pi)+r1
+            x=math.cos(rotTwo*2*math.pi)*thing+cx
+            y=r0*math.sin(circTwo*2*math.pi)+cy
+            z=-1*math.sin(rotTwo*2*math.pi)*thing+cz
+            torus.append([x,y,z,1])
+            circ+=1
+        rot+=1
+    return torus'''
 def generate_torus( points, cx, cy, cz, r0, r1, step ):
-    pass
+    torus = [];
+    n = 1/step
+    rotB = 0;
+    while rotB <= n:
+        circB = 0;
+        rot = rotB/n;
+        while circB <= n:
+            circ = circB/n;
+            pi = math.pi
+            cosP = math.cos(rot*2*pi);
+            cosT = math.cos(circ*2*pi);
+            sinP = math.sin(rot*2*pi);
+            sinT = math.sin(circ*2*pi);
+            x = cosP*(r0*cosT + r1) + cx;
+            y = r0*sinT + cy;
+            z = -1*sinP*(r0*cosT + r1) + cz;
+            torus.append([x, y, z, 1]);
+
+            circB += 1;
+        rotB += 1;
+    return torus;
+
 
 def add_circle( points, cx, cy, cz, r, step ):
     x0 = r + cx
